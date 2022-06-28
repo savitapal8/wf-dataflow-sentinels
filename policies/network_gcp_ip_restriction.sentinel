@@ -1,0 +1,131 @@
+# This policy enforces the use of internal ips only(ip restriction) for communication
+# These sentinel policies enforce Wells Fargo security principles
+
+# Import tfplan-functions.sentinel
+# with alias "plan
+import "tfplan-functions" as plan
+import "generic-functions" as gen
+import "strings"
+import "types"
+
+//**********************Variables to be used***********************************
+selected_node = null
+messages = {}
+
+//******Resource Types internal IP Param Map***********************************
+
+resourceTypesInternalIPMap = {
+	"google_dataproc_cluster": [{
+		"key":             "cluster_config.0.gce_cluster_config.0.internal_ip_only",
+		"expected_result": true,
+		"is_composer_cidr": false,
+	}],
+	"google_sql_database_instance": [{
+		"key":             "settings.0.ip_configuration.0.ipv4_enabled",
+		"expected_result": false,
+		"is_composer_cidr": false,
+	}],
+	"google_compute_forwarding_rule": [{
+		"key":             "load_balancing_scheme",
+		"expected_result": "INTERNAL_MANAGED",
+		"is_composer_cidr": false,
+	}],
+	"google_dns_managed_zone": [{
+		"key":             "visibility",
+		"expected_result": "private",
+		"is_composer_cidr": false,
+	}],
+	"google_container_cluster": [{
+		"key":             "private_cluster_config.0.enable_private_nodes",
+		"expected_result": true,
+		"is_composer_cidr": false,
+	},
+    {
+        "key":             "private_cluster_config.0.enable_private_endpoint",
+        "expected_result": true,
+		"is_composer_cidr": false,
+    }],
+	"google_composer_environment": [
+	{
+		"key":             "config.0.private_environment_config.0.enable_private_endpoint",
+		"expected_result": true,
+		"is_composer_cidr": false,
+	},
+	{
+		"key":             "config.0.master_authorized_networks_config.0.cidr_blocks.0.cidr_block",
+		"expected_result": true,
+		"is_composer_cidr": true,
+		"cidr_disp_message": "CIDR block must be defined under master_authorized_networks_config - cidr_blocks attribute for resource ",
+	}],
+    "google_dataflow_job": [{
+		"key":             "ip_configuration",
+		"expected_result": "WORKER_IP_PRIVATE",
+		"is_composer_cidr": false,
+	}],
+}
+
+//******Following function is being used to validate the internal ip settings**
+//as per the GCP resource's requirement
+//address is the key and rc is the value of resource_changes in the mock of tfplan-v2 file
+check_internal_ip = func(address, rc) {
+	map_results = resourceTypesInternalIPMap[rc.type]
+	msg_list = null
+
+	for map_results as rec {
+		selected_node = plan.evaluate_attribute(rc, rec.key)
+		selected_node_result = rec.expected_result		
+		is_composer_cidr = rec.is_composer_cidr
+
+		if types.type_of(selected_node) is "null" or types.type_of(selected_node) is "undefined" {
+			if msg_list is null {
+				msg_list = []
+			}
+
+			if is_composer_cidr is true {
+				append(msg_list, rec.cidr_disp_message + address)
+			} else {
+				append(msg_list, "It does not have " + rec.key + " defined.")
+			}
+		} else {
+			if selected_node is not selected_node_result and is_composer_cidr is not true {
+				if msg_list is null {
+					msg_list = []
+				}
+				append(msg_list, "The service should be accessible through internal ip only, please set value of " + rec.key + " to " + plan.to_string(selected_node_result) + " to make it as per requirement.")
+			}
+			
+		}
+	}
+	return msg_list
+}
+
+//*******************validating internal ip only*******************************
+messages_ip_internal = {}
+
+for resourceTypesInternalIPMap as key_address, _ {
+	# Get all the instances on the basis of type
+	allResources = plan.find_resources(key_address)
+	for allResources as address, rc {
+		message = null
+		message = check_internal_ip(address, rc)
+
+		if types.type_of(message) is not "null" {
+
+			gen.create_sub_main_key_list(messages, messages_ip_internal, address)
+
+			append(messages_ip_internal[address], message)
+			append(messages[address], message)
+		}
+	}
+}
+
+//*****************************************************************************
+
+GCP_INTERNAL_IP = rule {
+	length(messages_ip_internal) is 0
+}
+
+# Main rule
+print(messages)
+
+main = rule { GCP_INTERNAL_IP }

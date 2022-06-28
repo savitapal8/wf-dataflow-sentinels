@@ -1,0 +1,329 @@
+import "strings"
+
+providers = {
+	"google": {
+		"alias": "",
+		"config": {
+			"access_token": {
+				"references": [
+					"var.access_token",
+				],
+			},
+		},
+		"module_address":      "",
+		"name":                "google",
+		"provider_config_key": "google",
+		"version_constraint":  "",
+	},
+	"google-beta": {
+		"alias": "",
+		"config": {
+			"access_token": {
+				"references": [
+					"var.access_token",
+				],
+			},
+		},
+		"module_address":      "",
+		"name":                "google-beta",
+		"provider_config_key": "google-beta",
+		"version_constraint":  "",
+	},
+}
+
+resources = {
+	"google_composer_environment.composer_env": {
+		"address": "google_composer_environment.composer_env",
+		"config": {
+			"config": [
+				{
+					"environment_size": {
+						"references": [
+							"var.environment_size",
+						],
+					},
+					"node_config": [
+						{
+							"network": {
+								"references": [
+									"local.network_project_id",
+									"var.network",
+								],
+							},
+							"subnetwork": {
+								"references": [
+									"local.network_project_id",
+									"local.subnetwork_region",
+									"var.subnetwork",
+								],
+							},
+						},
+					],
+					"workloads_config": [
+						{},
+					],
+				},
+			],
+			"labels": {
+				"references": [
+					"var.labels",
+				],
+			},
+			"name": {
+				"references": [
+					"var.composer_env_name",
+				],
+			},
+			"project": {
+				"references": [
+					"var.project_id",
+				],
+			},
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "composer_env",
+		"provider_config_key": "google-beta",
+		"provisioners":        [],
+		"type":                "google_composer_environment",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"access_token": {
+		"default":        null,
+		"description":    "access_token",
+		"module_address": "",
+		"name":           "access_token",
+	},
+	"airflow_config_overrides": {
+		"default":        {},
+		"description":    "Airflow configuration properties to override. Property keys contain the section and property names, separated by a hyphen, for example \"core-dags_are_paused_at_creation\".",
+		"module_address": "",
+		"name":           "airflow_config_overrides",
+	},
+	"cloud_composer_network_ipv4_cidr_block": {
+		"default":        null,
+		"description":    "The CIDR block from which IP range in tenant project will be reserved.",
+		"module_address": "",
+		"name":           "cloud_composer_network_ipv4_cidr_block",
+	},
+	"cloud_sql_ipv4_cidr": {
+		"default":        null,
+		"description":    "The CIDR block from which IP range in tenant project will be reserved for Cloud SQL.",
+		"module_address": "",
+		"name":           "cloud_sql_ipv4_cidr",
+	},
+	"composer_env_name": {
+		"default":        "composer-test-demo",
+		"description":    "Name of Cloud Composer Environment",
+		"module_address": "",
+		"name":           "composer_env_name",
+	},
+	"composer_service_account": {
+		"default":        "composer-test-v2@modular-scout-345114.iam.gserviceaccount.com",
+		"description":    "Service Account for running Cloud Composer.",
+		"module_address": "",
+		"name":           "composer_service_account",
+	},
+	"enable_private_endpoint": {
+		"default":        true,
+		"description":    "Configure public access to the cluster endpoint.",
+		"module_address": "",
+		"name":           "enable_private_endpoint",
+	},
+	"env_variables": {
+		"default":        {},
+		"description":    "Variables of the airflow environment.",
+		"module_address": "",
+		"name":           "env_variables",
+	},
+	"environment_size": {
+		"default":        "ENVIRONMENT_SIZE_MEDIUM",
+		"description":    "The environment size controls the performance parameters of the managed Cloud Composer infrastructure that includes the Airflow database. Values for environment size are: ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM, and ENVIRONMENT_SIZE_LARGE.",
+		"module_address": "",
+		"name":           "environment_size",
+	},
+	"grant_sa_agent_permission": {
+		"default":        true,
+		"description":    "Cloud Composer relies on Workload Identity as Google API authentication mechanism for Airflow. ",
+		"module_address": "",
+		"name":           "grant_sa_agent_permission",
+	},
+	"image_version": {
+		"default":        "composer-2.0.16-airflow-2.2.5",
+		"description":    "The version of the aiflow running in the cloud composer environment.",
+		"module_address": "",
+		"name":           "image_version",
+	},
+	"labels": {
+		"default":        {},
+		"description":    "The resource labels (a map of key/value pairs) to be applied to the Cloud Composer.",
+		"module_address": "",
+		"name":           "labels",
+	},
+	"maintenance_end_time": {
+		"default":        null,
+		"description":    "Time window specified for recurring maintenance operations in RFC3339 format",
+		"module_address": "",
+		"name":           "maintenance_end_time",
+	},
+	"maintenance_recurrence": {
+		"default":        null,
+		"description":    "Frequency of the recurring maintenance window in RFC5545 format.",
+		"module_address": "",
+		"name":           "maintenance_recurrence",
+	},
+	"maintenance_start_time": {
+		"default":        "05:00",
+		"description":    "Time window specified for daily or recurring maintenance operations in RFC3339 format",
+		"module_address": "",
+		"name":           "maintenance_start_time",
+	},
+	"master_authorized_networks": {
+		"default":        [],
+		"description":    "List of master authorized networks. If none are provided, disallow external access (except the cluster node IPs, which GKE automatically whitelists).",
+		"module_address": "",
+		"name":           "master_authorized_networks",
+	},
+	"master_ipv4_cidr": {
+		"default":        null,
+		"description":    "The CIDR block from which IP range in tenant project will be reserved for the master.",
+		"module_address": "",
+		"name":           "master_ipv4_cidr",
+	},
+	"network": {
+		"default":        "default",
+		"description":    "The VPC network to host the composer cluster.",
+		"module_address": "",
+		"name":           "network",
+	},
+	"network_project_id": {
+		"default":        "modular-scout-345114",
+		"description":    "The project ID of the shared VPC's host (for shared vpc support)",
+		"module_address": "",
+		"name":           "network_project_id",
+	},
+	"pod_ip_allocation_range_name": {
+		"default":        null,
+		"description":    "The name of the cluster's secondary range used to allocate IP addresses to pods.",
+		"module_address": "",
+		"name":           "pod_ip_allocation_range_name",
+	},
+	"project": {
+		"default":        "modular-scout-345114",
+		"description":    "Name of Project",
+		"module_address": "",
+		"name":           "project",
+	},
+	"project_id": {
+		"default":        "modular-scout-345114",
+		"description":    "Name of Project",
+		"module_address": "",
+		"name":           "project_id",
+	},
+	"pypi_packages": {
+		"default":        {},
+		"description":    " Custom Python Package Index (PyPI) packages to be installed in the environment. Keys refer to the lowercase package name (e.g. \"numpy\").",
+		"module_address": "",
+		"name":           "pypi_packages",
+	},
+	"region": {
+		"default":        "us-central1",
+		"description":    "Region where the Cloud Composer Environment is created.",
+		"module_address": "",
+		"name":           "region",
+	},
+	"scheduler": {
+		"default": {
+			"count":      2,
+			"cpu":        "2",
+			"memory_gb":  7.5,
+			"storage_gb": 5,
+		},
+		"description":    "Configuration for resources used by Airflow schedulers.",
+		"module_address": "",
+		"name":           "scheduler",
+	},
+	"service_ip_allocation_range_name": {
+		"default":        null,
+		"description":    "The name of the services' secondary range used to allocate IP addresses to the cluster.",
+		"module_address": "",
+		"name":           "service_ip_allocation_range_name",
+	},
+	"subnetwork": {
+		"default":        "default",
+		"description":    "The subnetwork to host the composer cluster.",
+		"module_address": "",
+		"name":           "subnetwork",
+	},
+	"subnetwork_region": {
+		"default":        "us-central1",
+		"description":    "The subnetwork region of the shared VPC's host (for shared vpc support)",
+		"module_address": "",
+		"name":           "subnetwork_region",
+	},
+	"use_private_environment": {
+		"default":        true,
+		"description":    "Enable private environment.",
+		"module_address": "",
+		"name":           "use_private_environment",
+	},
+	"web_server": {
+		"default": {
+			"cpu":        "2",
+			"memory_gb":  7.5,
+			"storage_gb": 5,
+		},
+		"description":    "Configuration for resources used by Airflow web server.",
+		"module_address": "",
+		"name":           "web_server",
+	},
+	"web_server_allowed_ip_ranges": {
+		"default":        null,
+		"description":    "The network-level access control policy for the Airflow web server. If unspecified, no network-level access restrictions will be applied.",
+		"module_address": "",
+		"name":           "web_server_allowed_ip_ranges",
+	},
+	"web_server_ipv4_cidr": {
+		"default":        null,
+		"description":    "The CIDR block from which IP range in tenant project will be reserved for the web server.",
+		"module_address": "",
+		"name":           "web_server_ipv4_cidr",
+	},
+	"worker": {
+		"default": {
+			"cpu":        "2",
+			"max_count":  6,
+			"memory_gb":  7.5,
+			"min_count":  2,
+			"storage_gb": 5,
+		},
+		"description":    "Configuration for resources used by Airflow workers.",
+		"module_address": "",
+		"name":           "worker",
+	},
+}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}

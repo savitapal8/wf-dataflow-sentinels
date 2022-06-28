@@ -1,0 +1,597 @@
+terraform_version = "1.2.2"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"google_composer_environment.test": {
+			"address":        "google_composer_environment.test",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "test",
+			"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+			"tainted":        false,
+			"type":           "google_composer_environment",
+			"values": {
+				"config": [
+					{
+						"encryption_config": [
+							{
+								"kms_key_name": "projects/sublime-lyceum-343813/locations/us-central1/keyRings/keyring-1/cryptoKeys/cryptokey-1",
+							},
+						],
+						"master_authorized_networks_config": [
+							{
+								"cidr_blocks": [
+									{
+										"cidr_block":   "10.2.0.0/16",
+										"display_name": "",
+									},
+								],
+								"enabled": true,
+							},
+						],
+						"private_environment_config": [
+							{
+								"enable_private_endpoint": true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {
+									"webserver-rbac_user_registration_role": "Viewer",
+								},
+								"env_variables": null,
+								"image_version": "composer-2-airflow-2",
+								"pypi_packages": null,
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "wf-us-dev-cmp-app01-res123",
+				"region":   "us-central1",
+				"timeouts": null,
+			},
+		},
+	},
+}
+
+variables = {
+	"access_token": {
+		"name":  "access_token",
+		"value": "REDACTED_SENSITIVE",
+	},
+}
+
+resource_changes = {
+	"google_composer_environment.test": {
+		"address": "google_composer_environment.test",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"config": [
+					{
+						"encryption_config": [
+							{
+								"kms_key_name": "projects/sublime-lyceum-343813/locations/us-central1/keyRings/keyring-1/cryptoKeys/cryptokey-1",
+							},
+						],
+						"master_authorized_networks_config": [
+							{
+								"cidr_blocks": [
+									{
+										"cidr_block":   "10.2.0.0/16",
+										"display_name": "",
+									},
+								],
+								"enabled": true,
+							},
+						],
+						"private_environment_config": [
+							{
+								"enable_private_endpoint": true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {
+									"webserver-rbac_user_registration_role": "Viewer",
+								},
+								"env_variables": null,
+								"image_version": "composer-2-airflow-2",
+								"pypi_packages": null,
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "wf-us-dev-cmp-app01-res123",
+				"region":   "us-central1",
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"config": [
+					{
+						"airflow_uri":     true,
+						"dag_gcs_prefix":  true,
+						"database_config": true,
+						"encryption_config": [
+							{},
+						],
+						"environment_size":   true,
+						"gke_cluster":        true,
+						"maintenance_window": true,
+						"master_authorized_networks_config": [
+							{
+								"cidr_blocks": [
+									{},
+								],
+							},
+						],
+						"node_config": true,
+						"node_count":  true,
+						"private_environment_config": [
+							{
+								"cloud_composer_connection_subnetwork":   true,
+								"cloud_composer_network_ipv4_cidr_block": true,
+								"cloud_sql_ipv4_cidr_block":              true,
+								"enable_privately_used_public_ips":       true,
+								"master_ipv4_cidr_block":                 true,
+								"web_server_ipv4_cidr_block":             true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {},
+								"python_version":           true,
+								"scheduler_count":          true,
+							},
+						],
+						"web_server_config":                 true,
+						"web_server_network_access_control": true,
+						"workloads_config":                  true,
+					},
+				],
+				"id":      true,
+				"project": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "test",
+		"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+		"type":           "google_composer_environment",
+	},
+}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"google": {
+				"expressions": {
+					"access_token": {
+						"references": [
+							"var.access_token",
+						],
+					},
+					"project": {
+						"constant_value": "sublime-lyceum-343813",
+					},
+				},
+				"name": "google",
+			},
+			"google-beta": {
+				"expressions": {
+					"access_token": {
+						"references": [
+							"var.access_token",
+						],
+					},
+					"project": {
+						"constant_value": "sublime-lyceum-343813",
+					},
+				},
+				"name": "google-beta",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "google_composer_environment.test",
+					"expressions": {
+						"config": [
+							{
+								"encryption_config": [
+									{
+										"kms_key_name": {
+											"references": [
+												"data.google_kms_crypto_key.cryptokey-1.id",
+												"data.google_kms_crypto_key.cryptokey-1",
+											],
+										},
+									},
+								],
+								"master_authorized_networks_config": [
+									{
+										"cidr_blocks": [
+											{
+												"cidr_block": {
+													"constant_value": "10.2.0.0/16",
+												},
+											},
+										],
+										"enabled": {
+											"constant_value": true,
+										},
+									},
+								],
+								"private_environment_config": [
+									{
+										"enable_private_endpoint": {
+											"constant_value": true,
+										},
+									},
+								],
+								"software_config": [
+									{
+										"airflow_config_overrides": {
+											"constant_value": {
+												"webserver-rbac_user_registration_role": "Viewer",
+											},
+										},
+										"image_version": {
+											"constant_value": "composer-2-airflow-2",
+										},
+									},
+								],
+							},
+						],
+						"name": {
+							"constant_value": "wf-us-dev-cmp-app01-res123",
+						},
+						"region": {
+							"constant_value": "us-central1",
+						},
+					},
+					"mode":                "managed",
+					"name":                "test",
+					"provider_config_key": "google-beta",
+					"schema_version":      0,
+					"type":                "google_composer_environment",
+				},
+				{
+					"address": "data.google_kms_crypto_key.cryptokey-1",
+					"expressions": {
+						"key_ring": {
+							"references": [
+								"data.google_kms_key_ring.keyring-1.id",
+								"data.google_kms_key_ring.keyring-1",
+							],
+						},
+						"name": {
+							"constant_value": "cryptokey-1",
+						},
+					},
+					"mode":                "data",
+					"name":                "cryptokey-1",
+					"provider_config_key": "google",
+					"schema_version":      0,
+					"type":                "google_kms_crypto_key",
+				},
+				{
+					"address": "data.google_kms_key_ring.keyring-1",
+					"expressions": {
+						"location": {
+							"constant_value": "us-central1",
+						},
+						"name": {
+							"constant_value": "keyring-1",
+						},
+					},
+					"mode":                "data",
+					"name":                "keyring-1",
+					"provider_config_key": "google",
+					"schema_version":      0,
+					"type":                "google_kms_key_ring",
+				},
+			],
+			"variables": {
+				"access_token": {
+					"description": "access token",
+					"sensitive":   true,
+				},
+			},
+		},
+	},
+	"format_version": "1.1",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":        "google_composer_environment.test",
+					"mode":           "managed",
+					"name":           "test",
+					"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+					"schema_version": 0,
+					"sensitive_values": {
+						"config": [
+							{
+								"database_config": [],
+								"encryption_config": [
+									{},
+								],
+								"maintenance_window": [],
+								"master_authorized_networks_config": [
+									{
+										"cidr_blocks": [
+											{},
+										],
+									},
+								],
+								"node_config": [],
+								"private_environment_config": [
+									{},
+								],
+								"software_config": [
+									{
+										"airflow_config_overrides": {},
+									},
+								],
+								"web_server_config":                 [],
+								"web_server_network_access_control": [],
+								"workloads_config":                  [],
+							},
+						],
+					},
+					"type": "google_composer_environment",
+					"values": {
+						"config": [
+							{
+								"encryption_config": [
+									{
+										"kms_key_name": "projects/sublime-lyceum-343813/locations/us-central1/keyRings/keyring-1/cryptoKeys/cryptokey-1",
+									},
+								],
+								"master_authorized_networks_config": [
+									{
+										"cidr_blocks": [
+											{
+												"cidr_block":   "10.2.0.0/16",
+												"display_name": "",
+											},
+										],
+										"enabled": true,
+									},
+								],
+								"private_environment_config": [
+									{
+										"enable_private_endpoint": true,
+									},
+								],
+								"software_config": [
+									{
+										"airflow_config_overrides": {
+											"webserver-rbac_user_registration_role": "Viewer",
+										},
+										"env_variables": null,
+										"image_version": "composer-2-airflow-2",
+										"pypi_packages": null,
+									},
+								],
+							},
+						],
+						"labels":   null,
+						"name":     "wf-us-dev-cmp-app01-res123",
+						"region":   "us-central1",
+						"timeouts": null,
+					},
+				},
+			],
+		},
+	},
+	"prior_state": {
+		"format_version":    "1.0",
+		"terraform_version": "1.2.2",
+		"values": {
+			"root_module": {
+				"resources": [
+					{
+						"address":        "data.google_kms_crypto_key.cryptokey-1",
+						"mode":           "data",
+						"name":           "cryptokey-1",
+						"provider_name":  "registry.terraform.io/hashicorp/google",
+						"schema_version": 0,
+						"sensitive_values": {
+							"labels": {},
+							"version_template": [
+								{},
+							],
+						},
+						"type": "google_kms_crypto_key",
+						"values": {
+							"destroy_scheduled_duration": "86400s",
+							"id":                            "projects/sublime-lyceum-343813/locations/us-central1/keyRings/keyring-1/cryptoKeys/cryptokey-1",
+							"import_only":                   false,
+							"key_ring":                      "projects/sublime-lyceum-343813/locations/us-central1/keyRings/keyring-1",
+							"labels":                        {},
+							"name":                          "cryptokey-1",
+							"purpose":                       "ENCRYPT_DECRYPT",
+							"rotation_period":               "7776000s",
+							"skip_initial_version_creation": null,
+							"version_template": [
+								{
+									"algorithm":        "GOOGLE_SYMMETRIC_ENCRYPTION",
+									"protection_level": "SOFTWARE",
+								},
+							],
+						},
+					},
+					{
+						"address":          "data.google_kms_key_ring.keyring-1",
+						"mode":             "data",
+						"name":             "keyring-1",
+						"provider_name":    "registry.terraform.io/hashicorp/google",
+						"schema_version":   0,
+						"sensitive_values": {},
+						"type":             "google_kms_key_ring",
+						"values": {
+							"id":       "projects/sublime-lyceum-343813/locations/us-central1/keyRings/keyring-1",
+							"location": "us-central1",
+							"name":     "keyring-1",
+							"project":  "sublime-lyceum-343813",
+						},
+					},
+				],
+			},
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "google_composer_environment.test",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"config": [
+						{
+							"encryption_config": [
+								{
+									"kms_key_name": "projects/sublime-lyceum-343813/locations/us-central1/keyRings/keyring-1/cryptoKeys/cryptokey-1",
+								},
+							],
+							"master_authorized_networks_config": [
+								{
+									"cidr_blocks": [
+										{
+											"cidr_block":   "10.2.0.0/16",
+											"display_name": "",
+										},
+									],
+									"enabled": true,
+								},
+							],
+							"private_environment_config": [
+								{
+									"enable_private_endpoint": true,
+								},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {
+										"webserver-rbac_user_registration_role": "Viewer",
+									},
+									"env_variables": null,
+									"image_version": "composer-2-airflow-2",
+									"pypi_packages": null,
+								},
+							],
+						},
+					],
+					"labels":   null,
+					"name":     "wf-us-dev-cmp-app01-res123",
+					"region":   "us-central1",
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"config": [
+						{
+							"database_config": [],
+							"encryption_config": [
+								{},
+							],
+							"maintenance_window": [],
+							"master_authorized_networks_config": [
+								{
+									"cidr_blocks": [
+										{},
+									],
+								},
+							],
+							"node_config": [],
+							"private_environment_config": [
+								{},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {},
+								},
+							],
+							"web_server_config":                 [],
+							"web_server_network_access_control": [],
+							"workloads_config":                  [],
+						},
+					],
+				},
+				"after_unknown": {
+					"config": [
+						{
+							"airflow_uri":     true,
+							"dag_gcs_prefix":  true,
+							"database_config": true,
+							"encryption_config": [
+								{},
+							],
+							"environment_size":   true,
+							"gke_cluster":        true,
+							"maintenance_window": true,
+							"master_authorized_networks_config": [
+								{
+									"cidr_blocks": [
+										{},
+									],
+								},
+							],
+							"node_config": true,
+							"node_count":  true,
+							"private_environment_config": [
+								{
+									"cloud_composer_connection_subnetwork":   true,
+									"cloud_composer_network_ipv4_cidr_block": true,
+									"cloud_sql_ipv4_cidr_block":              true,
+									"enable_privately_used_public_ips":       true,
+									"master_ipv4_cidr_block":                 true,
+									"web_server_ipv4_cidr_block":             true,
+								},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {},
+									"python_version":           true,
+									"scheduler_count":          true,
+								},
+							],
+							"web_server_config":                 true,
+							"web_server_network_access_control": true,
+							"workloads_config":                  true,
+						},
+					],
+					"id":      true,
+					"project": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "test",
+			"provider_name": "registry.terraform.io/hashicorp/google-beta",
+			"type":          "google_composer_environment",
+		},
+	],
+	"terraform_version": "1.2.2",
+	"variables": {
+		"access_token": {
+			"value": "REDACTED_SENSITIVE",
+		},
+	},
+}

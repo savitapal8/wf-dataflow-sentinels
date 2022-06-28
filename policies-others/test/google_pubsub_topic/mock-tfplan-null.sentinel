@@ -1,0 +1,168 @@
+terraform_version = "1.0.8"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"google_pubsub_topic.example": {
+			"address":        "google_pubsub_topic.example",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "example",
+			"provider_name":  "registry.terraform.io/hashicorp/google",
+			"tainted":        false,
+			"type":           "google_pubsub_topic",
+			"values": {
+				"kms_key_name": null,
+				"labels":       null,
+				"name":         "example-topic",
+				"timeouts":     null,
+			},
+		},
+	},
+}
+
+variables = {
+	"access_token": {
+		"name":  "access_token",
+		"value": "REDACTED_SENSITIVE",
+	},
+}
+
+resource_changes = {
+	"google_pubsub_topic.example": {
+		"address": "google_pubsub_topic.example",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"kms_key_name": null,
+				"labels":       null,
+				"name":         "example-topic",
+				"timeouts":     null,
+			},
+			"after_unknown": {
+				"id": true,
+				"message_storage_policy": true,
+				"project":                true,
+				"schema_settings":        true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "example",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"type":           "google_pubsub_topic",
+	},
+}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"google": {
+				"expressions": {
+					"access_token": {
+						"references": [
+							"var.access_token",
+						],
+					},
+				},
+				"name": "google",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "google_pubsub_topic.example",
+					"expressions": {
+						"name": {
+							"constant_value": "example-topic",
+						},
+					},
+					"mode":                "managed",
+					"name":                "example",
+					"provider_config_key": "google",
+					"schema_version":      0,
+					"type":                "google_pubsub_topic",
+				},
+			],
+			"variables": {
+				"access_token": {
+					"description": "access token",
+					"sensitive":   true,
+				},
+			},
+		},
+	},
+	"format_version": "0.2",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":        "google_pubsub_topic.example",
+					"mode":           "managed",
+					"name":           "example",
+					"provider_name":  "registry.terraform.io/hashicorp/google",
+					"schema_version": 0,
+					"sensitive_values": {
+						"message_storage_policy": [],
+						"schema_settings":        [],
+					},
+					"type": "google_pubsub_topic",
+					"values": {
+						"kms_key_name": null,
+						"labels":       null,
+						"name":         "example-topic",
+						"timeouts":     null,
+					},
+				},
+			],
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "google_pubsub_topic.example",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"kms_key_name": null,
+					"labels":       null,
+					"name":         "example-topic",
+					"timeouts":     null,
+				},
+				"after_sensitive": {
+					"message_storage_policy": [],
+					"schema_settings":        [],
+				},
+				"after_unknown": {
+					"id": true,
+					"message_storage_policy": true,
+					"project":                true,
+					"schema_settings":        true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "example",
+			"provider_name": "registry.terraform.io/hashicorp/google",
+			"type":          "google_pubsub_topic",
+		},
+	],
+	"terraform_version": "1.0.8",
+	"variables": {
+		"access_token": {
+			"value": "REDACTED_SENSITIVE",
+		},
+	},
+}

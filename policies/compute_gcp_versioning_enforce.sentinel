@@ -1,0 +1,99 @@
+# This policy enforces validation of release_channel and datapath_provider for GKE.
+# These sentinel policies enforce Wells Fargo security principles
+
+# Import tfplan-functions.sentinel
+# with alias "plan"
+import "tfplan/v2" as tfplan
+import "tfplan-functions" as plan
+import "generic-functions" as gen
+import "strings"
+import "types"
+
+selected_node = null
+messages = {}
+
+# Resource Types Compute Version Param Map
+resourceTypesGCPVersionMap = {
+	"google_container_cluster": [{
+		"key":   "release_channel.0.channel",
+		"value": "STABLE",
+        "is_prefixed_check": false,
+	},
+	{
+		"key":   "datapath_provider",
+		"value": "ADVANCED_DATAPATH",
+        "is_prefixed_check": false,	
+	},],	
+	"google_composer_environment": [{
+		"key":   "config.0.software_config.0.image_version",
+		"value":  "composer-2",
+        "is_prefixed_check": true,
+	},],
+}
+
+check_compute_version = func(address, rc){
+
+	map_results = resourceTypesGCPVersionMap[rc.type]
+	msg_list = null
+
+	for map_results as rec {
+		selected_node = plan.evaluate_attribute(rc, rec.key)
+		selected_node_result = rec.value		
+		is_prefixed_check = rec.is_prefixed_check
+
+		if types.type_of(selected_node) == "null" or types.type_of(selected_node) == "undefined" {
+			if msg_list is null {
+				msg_list = []
+			}
+
+			append(msg_list, "It does not have " + rec.key + " defined.")
+		} else {
+			if is_prefixed_check is true {
+					if not strings.has_prefix(selected_node, rec.value) {
+						if msg_list is null {
+						msg_list = []
+					}
+					append(msg_list, address +  " value of " + rec.key + " attribute should only start with " + rec.value + "*.")
+				}
+			} else {
+				if not (plan.to_string(selected_node) == rec.value) {
+					if msg_list is null {
+						msg_list = []
+					}
+					append(msg_list, address +  " the value of " + plan.to_string(selected_node) + " can only be " + rec.value + ".")
+				}
+			}
+		}
+	}
+	return msg_list
+}
+
+messages_compute_versions = {}
+
+for resourceTypesGCPVersionMap as key_address, _ {
+	# Get all the instances on the basis of type
+	allResources = plan.find_resources(key_address)
+	for allResources as address, rc {
+		message = null
+		message = check_compute_version(address, rc)
+
+		if types.type_of(message) is not "null" {
+
+			gen.create_sub_main_key_list(messages, messages_compute_versions, address)
+
+			append(messages_compute_versions[address], message)
+			append(messages[address], message)
+		}
+	}
+}
+
+//*****************************************************************************
+
+GCP_GKE_RELEASECHANNEL = rule {
+	length(messages_compute_versions) is 0
+}
+
+# Main rule
+print(messages)
+
+main = rule { GCP_GKE_RELEASECHANNEL }

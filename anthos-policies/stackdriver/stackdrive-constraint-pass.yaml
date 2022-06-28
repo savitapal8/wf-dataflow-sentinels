@@ -1,0 +1,11 @@
+  apiVersion: addons.sigs.k8s.io/v1alpha1
+  kind: Stackdriver
+  metadata:
+    name: stackdriver
+    namespace: kube-system
+  spec:
+    projectID: airline1-sabre-wolverine
+    clusterName: acm-cluster-test2
+    clusterLocation: us-central1-c
+    enableStackdriverForApplications: true
+    optimizedMetrics: true

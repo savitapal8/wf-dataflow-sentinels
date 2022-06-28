@@ -1,0 +1,113 @@
+# This policy enforces validation of enablement of Workload Identity for GKE.
+# These sentinel policies enforce Wells Fargo security principles
+
+# Import tfplan-functions.sentinel
+# with alias "plan"
+import "tfplan/v2" as tfplan
+import "tfplan-functions" as plan
+import "generic-functions" as gen
+import "strings"
+import "types"
+
+selected_node = null
+messages = {}
+
+# Resource Types GCP Identity Param Map
+resourceTypesGCPIdentityMap = {
+	"google_container_cluster": {
+		"key":   "workload_identity_config.0.workload_pool",
+		"value": ".svc.id.goog",
+        "is_project_id": true,
+	},
+	"google_composer_environment": {
+		"key":   "config.0.software_config.0.airflow_config_overrides.webserver-rbac_user_registration_role",
+		"value":  "Viewer",
+        "is_project_id": false,
+	},
+}
+
+get_workload_project_identity_config = func(sub_value){
+    workload_pool_var = ""
+
+    datasource = tfplan.raw.prior_state.values.root_module.resources
+    is_null_datasource = rule { types.type_of(datasource) == "undefined" }
+    
+    if not is_null_datasource {
+        projects = filter tfplan.raw.prior_state.values.root_module.resources as _, rc {
+            rc.type is "google_project"
+        }
+
+        project_id = ""
+        for projects as address, rc {
+            project_id = plan.evaluate_attribute(rc, "values.project_id")
+        }
+
+        workload_pool_var = plan.to_string(project_id) + sub_value
+    }
+    return workload_pool_var
+}
+
+check_gcp_identity = func(address, rc, key, value) {
+    message = null
+    workload_pool = plan.evaluate_attribute(rc, key)
+
+    if types.type_of(workload_pool) == "null" or types.type_of(workload_pool) == "undefined" {
+        message = address + "the value of  " + key + " can't be null or undefined"
+    } else {
+        if not (workload_pool == value) {
+           message = address + "the value of  " + key + " can only be " + value + "."
+        }
+	}
+
+    return message
+}
+
+//*******************validating service account only***************************
+messages_gi = {}
+for resourceTypesGCPIdentityMap as key_address, _ {
+
+    rtg = resourceTypesGCPIdentityMap[key_address]
+    key = rtg.key
+    sub_value = rtg.value
+    final_value = ""
+    is_project_id = rtg.is_project_id
+
+    if is_project_id is true {
+        final_value = get_workload_project_identity_config(sub_value)
+    } else {
+        final_value = sub_value
+    }
+
+    if is_project_id is true and final_value is "" {
+        message = "For resource: " + address + ", please define data source for resource type: google_project"
+        gen.create_sub_main_key_list(messages, messages_gi, address)
+        append(messages_gi[address], message)
+        append(messages[address], message)
+
+    } else {
+        # Get all the instances on the basis of type
+        allResources = plan.find_resources(key_address)        
+        for allResources as address, rc {
+            message = null
+            message = check_gcp_identity(address, rc, key, final_value)
+            if types.type_of(message) is not "null" {
+
+                gen.create_sub_main_key_list(messages, messages_gi, address)
+
+                append(messages_gi[address], message)
+                append(messages[address], message)
+            }
+        }
+    }
+}
+
+//********************************************************************************************************
+
+GCP_GKE_WORLOADIDENT = rule {
+	length(messages_gi) is 0
+}
+
+# Main rule
+print(messages)
+
+main = rule { GCP_GKE_WORLOADIDENT }

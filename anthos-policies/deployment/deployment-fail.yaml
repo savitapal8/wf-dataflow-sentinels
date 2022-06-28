@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    application_division: pci
+    application_name: app1
+    application_role: web
+    au: test
+    created: ""
+    environment: prod
+    gcp_region: uk
+    owner: hybridenv
+spec:
+  selector:
+    matchLabels:
+      application_division: pci
+      application_name: app1
+      application_role: web
+      au: test
+      created: ""
+      environment: prod
+      gcp_region: uk
+      owner: hybridenv
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        application_division: pci
+        application_name: app1
+        application_role: web
+        au: test
+        created: ""
+        environment: prod
+        gcp_region: uk
+        owner: hybridenv
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.8
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80

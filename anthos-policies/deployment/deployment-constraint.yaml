@@ -1,0 +1,41 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# [START anthos_config_management_ci_app_deployment_must_have_owner]
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels
+metadata:
+  name: deployment-must-have-labels
+spec:
+  match:
+    kinds:
+      - apiGroups: ["apps"]
+        kinds: ["Deployment"]
+  parameters:
+    labels:
+      - key: "gcp_region"
+        allowedRegex: "^us$"
+      - key: "owner"
+        allowedRegex: "^hybridenv$"
+      - key: "application_division"
+        allowedRegex: "^pci$|^paa$|^hdpa$|^hra$"
+      - key: "application_name"
+      - key: "application_role"
+        allowedRegex: "^app$|^web$|^auth$|^data$"
+      - key: "environment"
+        allowedRegex: "^prod$|^int$|^uat$|^stage$|^dev$|^test$"
+      - key: "au"
+      - key: "created"
+        allowedRegex: "^\\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$"
+    message: "Deployment objects should have required labels"
+# [END anthos_config_management_ci_app_deployment_must_have_owner]

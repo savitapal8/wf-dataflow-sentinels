@@ -1,0 +1,73 @@
+#This policy uses the Sentinel tfplan/v2 import to require that
+# all GCE compute instances have all mandatory labels
+
+# Note that the comparison is case-sensitive but also that GCE labels are only
+# allowed to contain lowercase letters, numbers, hypens, and underscores.
+
+# Import tfplan-functions.sentinel
+# with alias "plan"
+import "tfplan-functions" as plan
+import "strings"
+import "types"
+
+param prefix
+
+# Get all Pubsub Topics
+allTopics = plan.find_resources("google_pubsub_topic")
+
+# print(allTopics)
+
+voilations = {}
+messages = {}
+for allTopics as address, rc {
+	messages[address] = []
+	unknown_kms_key = plan.evaluate_attribute(rc.change.after_unknown,"kms_key_name")
+	is_unknown_kms_undefined = rule { types.type_of(unknown_kms_key) is "null" }
+	if is_unknown_kms_undefined {
+		known_kms_key = plan.evaluate_attribute(rc,"kms_key_name")
+		is_known_kms_undefined = rule { types.type_of(known_kms_key) is "undefined" }
+		if is_known_kms_undefined {
+			voilations[address] = rc
+			message = plan.to_string(address) + " does not have kms_key_name defined"
+			append(messages[address],message)
+		} else {
+			if types.type_of(known_kms_key) is "null" {
+				voilations[address] = rc
+				message = plan.to_string(address) + " does not have kms_key_name defined"
+				append(messages[address],message)
+			}
+		}
+	}
+
+	message_storage_policy = rc["change"]["after"]["message_storage_policy"]
+	is_storage_policy_undefined = rule { types.type_of(message_storage_policy) is "undefined" }
+	if is_storage_policy_undefined {
+		voilations[address] = rc
+		message = plan.to_string(address) + " does not have message_storage_policy defined"
+		append(messages[address],message)
+	} else {
+		allowed_persistence_regions = rc["change"]["after"]["message_storage_policy"][0]["allowed_persistence_regions"]
+		is_allowed_persistence_regions_undefined = rule { types.type_of(allowed_persistence_regions) is "undefined" }
+		if is_allowed_persistence_regions_undefined {
+			voilations[address] = rc
+			message = plan.to_string(address) + " does not have allowed_persistence_regions defined"
+			append(messages[address],message)
+		} else {	
+			for allowed_persistence_regions as region {
+				if not strings.has_prefix(region, prefix) {
+					voilations[address] = rc
+					message = "region defined in  does not have allowed_persistence_regions doesnt have prefix " + prefix
+					append(messages[address],message)
+				}
+			}
+		}
+	}
+}
+
+print(messages)
+
+# Main rule
+
+GCP_PUBSUB_REGION = rule { length(voilations) is 0 }
+
+main = rule { GCP_PUBSUB_REGION }

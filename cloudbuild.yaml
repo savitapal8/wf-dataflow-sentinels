@@ -1,0 +1,16 @@
+steps:
+- id: "Download Sentinel"
+  name: ubuntu
+  entrypoint: bash
+  args: ['./scripts/prep.bash']
+# In the next step, everything in the environment is discarded
+# EXCEPT items on "/workspace"
+- id: "Run Sentinel test"
+  name: python
+  entrypoint: python
+  args:
+    - scripts/test_policies.py
+    - --sentinel_bin
+    - /workspace/sentinel/sentinel
+    - --sentinel_policy_dir
+    - ./policies

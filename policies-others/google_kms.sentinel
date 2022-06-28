@@ -1,0 +1,93 @@
+#This policy uses the Sentinel tfplan/v2 import to require that
+
+# Import tfplan-functions.sentinel
+# with alias "plan"
+import "tfplan-functions" as plan
+import "strings"
+import "types"
+
+allKeyringResources = plan.find_resources("google_kms_key_ring")
+allKmsCryptokeyResources = plan.find_resources("google_kms_crypto_key")
+allKmsCryptokeySkipInitial = plan.find_resources("google_kms_crypto_key")
+
+keyring_messages = {}
+for allKeyringResources as address, rc {
+	keyring_location = plan.evaluate_attribute(rc.change.after, "location")
+	#print(keyring_location)
+
+	if not strings.has_prefix(keyring_location, "us-") {
+		keyring_messages[address] = " location with value " + keyring_location + " is not allowed"
+		print(keyring_messages[address])
+	}
+}
+
+cryptokey_messages = {}
+for allKmsCryptokeyResources as address, rc {
+	key_rotation = plan.evaluate_attribute(rc.change.after, "rotation_period")
+	#print(key_rotation)
+
+	is_key_rotation_null = rule { types.type_of(key_rotation) is "null" }
+	#print (is_key_rotation_null )
+
+	if is_key_rotation_null is true {
+
+		cryptokey_messages[address] = rc
+		print(" rotation Period with null is not allowed ")
+
+	} else {
+
+		if key_rotation == "7776000s" {
+
+			#print("I am good ")
+
+		} else {
+
+			cryptokey_messages[address] = rc
+			print("Please enter key rotation period as 90 Days")
+
+		}
+	}
+
+}
+
+#****************************************************************************
+
+kms_skip_initial_messages = {}
+for allKmsCryptokeySkipInitial as address, rc {
+	skip_initial = plan.evaluate_attribute(rc.change.after, "skip_initial_version_creation")
+	val_import_only = plan.evaluate_attribute(rc.change.after_unknown, "import_only")
+
+	#print(skip_initial)
+
+	is_skip_initial_null = rule { types.type_of(skip_initial) is "null" }
+
+	#print (is_skip_initial_null)
+
+	if is_skip_initial_null is true {
+
+		kms_skip_initial_messages[address] = rc
+		print(" skip initial with null value is not allowed ")
+
+	} else {
+
+		if skip_initial is true and val_import_only is true {
+
+			#print ("This is a Match !!!")
+
+		} else {
+
+			kms_skip_initial_messages[address] = rc
+			print("kms skip initial version with false value is not allowed")
+
+		}
+	}
+
+}
+
+#****************************************************************************
+
+GCP_KMS_REGION = rule { length(keyring_messages) is 0 }
+GCP_KMS_ROTATION = rule { length(cryptokey_messages) is 0 }
+GCP_KMS_IMPORTONLY = rule { length(kms_skip_initial_messages) is 0 }
+
+main = rule { GCP_KMS_REGION and GCP_KMS_ROTATION and GCP_KMS_IMPORTONLY }

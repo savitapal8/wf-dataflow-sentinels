@@ -1,0 +1,48 @@
+#This policy uses the Sentinel tfplan/v2 import to require that
+# all GCE compute instances have all mandatory labels
+
+# Note that the comparison is case-sensitive but also that GCE labels are only
+# allowed to contain lowercase letters, numbers, hypens, and underscores.
+
+# Import tfplan-functions.sentinel
+# with alias "plan"
+import "tfplan-functions" as plan
+import "strings"
+import "types"
+
+# Get all Pubsub Topics
+allResources = plan.find_resources("google_compute_interconnect_attachment")
+
+mtu_messages = {}
+for allResources as address, rc {
+	uk_mtu = plan.evaluate_attribute(rc.change.after_unknown, "mtu")
+	if types.type_of(uk_mtu) is "null" {
+		k_mtu = plan.evaluate_attribute(rc, "mtu")
+		if k_mtu is not "1500" {
+			mtu_messages[address] = "Resource " + address + " has mtu with value " + k_mtu + " which is not allowed"
+		}
+	} else {
+		mtu_messages[address] = "Resource " + address + " has default mtu which is not allowed"
+	}
+}
+region_messages = {}
+for allResources as address, rc {
+	uk_region = plan.evaluate_attribute(rc.change.after_unknown, "region")
+	if types.type_of(uk_region) is "null" {
+		k_region = plan.evaluate_attribute(rc, "region")
+		if not strings.has_prefix(k_region,"us-") {
+			region_messages[address] = "Resource " + address + " has region with value " + k_region + " which is not allowed"
+		}
+	} else {
+		region_messages[address] = "Resource " + address + " has default region which is not allowed"
+	}
+}
+
+print(mtu_messages)
+print(region_messages)
+
+GCP_IC_MTU = rule { length(mtu_messages) is 0 }
+
+GCP_IC_REGION = rule { length(region_messages) is 0 }
+
+main = rule { GCP_IC_MTU and GCP_IC_REGION }

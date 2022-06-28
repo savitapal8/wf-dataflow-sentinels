@@ -1,0 +1,59 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# [START anthos_config_management_ci_app_required_labels]
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sstackdriverapplicationlogging
+spec:
+  crd:
+    spec:
+      names:
+        kind: k8sStackdriverApplicationLogging
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            message:
+              type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sstackdriverapplicationlogging
+
+        get_message(parameters, _default) = msg {
+        not parameters.message
+        msg := _default
+        }
+        get_message(parameters, _default) = msg {
+        msg := parameters.message
+        }
+
+        violation[{"msg": msg}] {
+        provided := input.review.object.spec["enableStackdriverForApplications"]
+        provided != true
+        def_msg := sprintf("you must enable stackdriver application logging %v", [])
+        msg := get_message(input.parameters, def_msg)
+        }
+
+        violation[{"msg": msg}] {
+        provided := { x | x := input.review.object.spec.enableStackdriverForApplications }
+        defined := count(provided)
+        defined == 0
+        def_msg := sprintf("you must define stackdriver application logging parameter %v", [])
+        msg := get_message(input.parameters, def_msg)
+        }
+
+
+        

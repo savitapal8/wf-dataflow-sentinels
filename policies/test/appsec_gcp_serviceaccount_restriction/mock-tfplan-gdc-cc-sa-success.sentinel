@@ -1,0 +1,1801 @@
+terraform_version = "1.2.2"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"google_composer_environment.composer_env": {
+			"address":        "google_composer_environment.composer_env",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "composer_env",
+			"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+			"tainted":        false,
+			"type":           "google_composer_environment",
+			"values": {
+				"config": [
+					{
+						"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+						"master_authorized_networks_config": [],
+						"node_config": [
+							{
+								"network":         "projects/modular-scout-345114/global/networks/default",
+								"service_account": "composer-test-v2@modular-scout-345114.iam.gserviceaccount.com",
+								"subnetwork":      "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+								"tags":            null,
+							},
+						],
+						"private_environment_config": [
+							{
+								"enable_private_endpoint": true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {
+									"webserver-rbac_user_registration_role": "",
+								},
+								"env_variables": null,
+								"image_version": "composer-2.0.16-airflow-2.2.5",
+								"pypi_packages": null,
+							},
+						],
+						"workloads_config": [
+							{
+								"scheduler": [
+									{
+										"count":      2,
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"web_server": [
+									{
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"worker": [
+									{
+										"cpu":        2,
+										"max_count":  6,
+										"memory_gb":  7.5,
+										"min_count":  2,
+										"storage_gb": 5,
+									},
+								],
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "composer-test-v2",
+				"project":  "modular-scout-345114",
+				"region":   "us-central1",
+				"timeouts": null,
+			},
+		},
+		"google_composer_environment.composer_sa_resource_env": {
+			"address":        "google_composer_environment.composer_sa_resource_env",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "composer_sa_resource_env",
+			"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+			"tainted":        false,
+			"type":           "google_composer_environment",
+			"values": {
+				"config": [
+					{
+						"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+						"master_authorized_networks_config": [],
+						"node_config": [
+							{
+								"network":    "projects/modular-scout-345114/global/networks/default",
+								"subnetwork": "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+								"tags":       null,
+							},
+						],
+						"private_environment_config": [
+							{
+								"enable_private_endpoint": true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {
+									"webserver-rbac_user_registration_role": "",
+								},
+								"env_variables": null,
+								"image_version": "composer-2.0.16-airflow-2.2.5",
+								"pypi_packages": null,
+							},
+						],
+						"workloads_config": [
+							{
+								"scheduler": [
+									{
+										"count":      2,
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"web_server": [
+									{
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"worker": [
+									{
+										"cpu":        2,
+										"max_count":  6,
+										"memory_gb":  7.5,
+										"min_count":  2,
+										"storage_gb": 5,
+									},
+								],
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "composer-test-v2",
+				"project":  "modular-scout-345114",
+				"region":   "us-central1",
+				"timeouts": null,
+			},
+		},
+		"google_project_iam_member.cloud-composer": {
+			"address":        "google_project_iam_member.cloud-composer",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "cloud-composer",
+			"provider_name":  "registry.terraform.io/hashicorp/google",
+			"tainted":        false,
+			"type":           "google_project_iam_member",
+			"values": {
+				"condition": [],
+				"project":   "modular-scout-345114",
+				"role":      "roles/composer.ServiceAgentV2Ext",
+			},
+		},
+		"google_service_account.cloud-composer-sa": {
+			"address":        "google_service_account.cloud-composer-sa",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "cloud-composer-sa",
+			"provider_name":  "registry.terraform.io/hashicorp/google",
+			"tainted":        false,
+			"type":           "google_service_account",
+			"values": {
+				"account_id":   "cloud-composer-sa-id",
+				"description":  null,
+				"disabled":     false,
+				"display_name": "Service Account",
+				"project":      "modular-scout-345114",
+				"timeouts":     null,
+			},
+		},
+	},
+}
+
+variables = {
+	"access_token": {
+		"name":  "access_token",
+		"value": "REDACTED_SENSITIVE",
+	},
+	"airflow_config_overrides": {
+		"name": "airflow_config_overrides",
+		"value": {
+			"webserver-rbac_user_registration_role": "",
+		},
+	},
+	"cloud_composer_network_ipv4_cidr_block": {
+		"name":  "cloud_composer_network_ipv4_cidr_block",
+		"value": null,
+	},
+	"cloud_sql_ipv4_cidr": {
+		"name":  "cloud_sql_ipv4_cidr",
+		"value": null,
+	},
+	"composer_env_name": {
+		"name":  "composer_env_name",
+		"value": "composer-test-v2",
+	},
+	"composer_service_account": {
+		"name":  "composer_service_account",
+		"value": "composer-test-v2@modular-scout-345114.iam.gserviceaccount.com",
+	},
+	"enable_private_endpoint": {
+		"name":  "enable_private_endpoint",
+		"value": true,
+	},
+	"env_variables": {
+		"name":  "env_variables",
+		"value": {},
+	},
+	"environment_size": {
+		"name":  "environment_size",
+		"value": "ENVIRONMENT_SIZE_MEDIUM",
+	},
+	"grant_sa_agent_permission": {
+		"name":  "grant_sa_agent_permission",
+		"value": true,
+	},
+	"image_version": {
+		"name":  "image_version",
+		"value": "composer-2.0.16-airflow-2.2.5",
+	},
+	"labels": {
+		"name":  "labels",
+		"value": {},
+	},
+	"maintenance_end_time": {
+		"name":  "maintenance_end_time",
+		"value": null,
+	},
+	"maintenance_recurrence": {
+		"name":  "maintenance_recurrence",
+		"value": null,
+	},
+	"maintenance_start_time": {
+		"name":  "maintenance_start_time",
+		"value": "05:00",
+	},
+	"master_authorized_networks": {
+		"name":  "master_authorized_networks",
+		"value": [],
+	},
+	"master_ipv4_cidr": {
+		"name":  "master_ipv4_cidr",
+		"value": null,
+	},
+	"network": {
+		"name":  "network",
+		"value": "default",
+	},
+	"network_project_id": {
+		"name":  "network_project_id",
+		"value": "modular-scout-345114",
+	},
+	"pod_ip_allocation_range_name": {
+		"name":  "pod_ip_allocation_range_name",
+		"value": null,
+	},
+	"project": {
+		"name":  "project",
+		"value": "modular-scout-345114",
+	},
+	"project_id": {
+		"name":  "project_id",
+		"value": "modular-scout-345114",
+	},
+	"pypi_packages": {
+		"name":  "pypi_packages",
+		"value": {},
+	},
+	"region": {
+		"name":  "region",
+		"value": "us-central1",
+	},
+	"scheduler": {
+		"name": "scheduler",
+		"value": {
+			"count":      2,
+			"cpu":        "2",
+			"memory_gb":  7.5,
+			"storage_gb": 5,
+		},
+	},
+	"service_ip_allocation_range_name": {
+		"name":  "service_ip_allocation_range_name",
+		"value": null,
+	},
+	"subnetwork": {
+		"name":  "subnetwork",
+		"value": "default",
+	},
+	"subnetwork_region": {
+		"name":  "subnetwork_region",
+		"value": "us-central1",
+	},
+	"use_private_environment": {
+		"name":  "use_private_environment",
+		"value": true,
+	},
+	"web_server": {
+		"name": "web_server",
+		"value": {
+			"cpu":        "2",
+			"memory_gb":  7.5,
+			"storage_gb": 5,
+		},
+	},
+	"web_server_allowed_ip_ranges": {
+		"name":  "web_server_allowed_ip_ranges",
+		"value": null,
+	},
+	"web_server_ipv4_cidr": {
+		"name":  "web_server_ipv4_cidr",
+		"value": null,
+	},
+	"worker": {
+		"name": "worker",
+		"value": {
+			"cpu":        "2",
+			"max_count":  6,
+			"memory_gb":  7.5,
+			"min_count":  2,
+			"storage_gb": 5,
+		},
+	},
+}
+
+resource_changes = {
+	"google_composer_environment.composer_env": {
+		"address": "google_composer_environment.composer_env",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"config": [
+					{
+						"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+						"master_authorized_networks_config": [],
+						"node_config": [
+							{
+								"network":         "projects/modular-scout-345114/global/networks/default",
+								"service_account": "composer-test-v2@modular-scout-345114.iam.gserviceaccount.com",
+								"subnetwork":      "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+								"tags":            null,
+							},
+						],
+						"private_environment_config": [
+							{
+								"enable_private_endpoint": true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {
+									"webserver-rbac_user_registration_role": "",
+								},
+								"env_variables": null,
+								"image_version": "composer-2.0.16-airflow-2.2.5",
+								"pypi_packages": null,
+							},
+						],
+						"workloads_config": [
+							{
+								"scheduler": [
+									{
+										"count":      2,
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"web_server": [
+									{
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"worker": [
+									{
+										"cpu":        2,
+										"max_count":  6,
+										"memory_gb":  7.5,
+										"min_count":  2,
+										"storage_gb": 5,
+									},
+								],
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "composer-test-v2",
+				"project":  "modular-scout-345114",
+				"region":   "us-central1",
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"config": [
+					{
+						"airflow_uri":                       true,
+						"dag_gcs_prefix":                    true,
+						"database_config":                   true,
+						"encryption_config":                 true,
+						"gke_cluster":                       true,
+						"maintenance_window":                true,
+						"master_authorized_networks_config": [],
+						"node_config": [
+							{
+								"disk_size_gb":         true,
+								"enable_ip_masq_agent": true,
+								"ip_allocation_policy": true,
+								"machine_type":         true,
+								"max_pods_per_node":    true,
+								"oauth_scopes":         true,
+								"zone":                 true,
+							},
+						],
+						"node_count": true,
+						"private_environment_config": [
+							{
+								"cloud_composer_connection_subnetwork":   true,
+								"cloud_composer_network_ipv4_cidr_block": true,
+								"cloud_sql_ipv4_cidr_block":              true,
+								"enable_privately_used_public_ips":       true,
+								"master_ipv4_cidr_block":                 true,
+								"web_server_ipv4_cidr_block":             true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {},
+								"python_version":           true,
+								"scheduler_count":          true,
+							},
+						],
+						"web_server_config":                 true,
+						"web_server_network_access_control": true,
+						"workloads_config": [
+							{
+								"scheduler": [
+									{},
+								],
+								"web_server": [
+									{},
+								],
+								"worker": [
+									{},
+								],
+							},
+						],
+					},
+				],
+				"id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "composer_env",
+		"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+		"type":           "google_composer_environment",
+	},
+	"google_composer_environment.composer_sa_resource_env": {
+		"address": "google_composer_environment.composer_sa_resource_env",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"config": [
+					{
+						"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+						"master_authorized_networks_config": [],
+						"node_config": [
+							{
+								"network":    "projects/modular-scout-345114/global/networks/default",
+								"subnetwork": "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+								"tags":       null,
+							},
+						],
+						"private_environment_config": [
+							{
+								"enable_private_endpoint": true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {
+									"webserver-rbac_user_registration_role": "",
+								},
+								"env_variables": null,
+								"image_version": "composer-2.0.16-airflow-2.2.5",
+								"pypi_packages": null,
+							},
+						],
+						"workloads_config": [
+							{
+								"scheduler": [
+									{
+										"count":      2,
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"web_server": [
+									{
+										"cpu":        2,
+										"memory_gb":  7.5,
+										"storage_gb": 5,
+									},
+								],
+								"worker": [
+									{
+										"cpu":        2,
+										"max_count":  6,
+										"memory_gb":  7.5,
+										"min_count":  2,
+										"storage_gb": 5,
+									},
+								],
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "composer-test-v2",
+				"project":  "modular-scout-345114",
+				"region":   "us-central1",
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"config": [
+					{
+						"airflow_uri":                       true,
+						"dag_gcs_prefix":                    true,
+						"database_config":                   true,
+						"encryption_config":                 true,
+						"gke_cluster":                       true,
+						"maintenance_window":                true,
+						"master_authorized_networks_config": [],
+						"node_config": [
+							{
+								"disk_size_gb":         true,
+								"enable_ip_masq_agent": true,
+								"ip_allocation_policy": true,
+								"machine_type":         true,
+								"max_pods_per_node":    true,
+								"oauth_scopes":         true,
+								"service_account":      true,
+								"zone":                 true,
+							},
+						],
+						"node_count": true,
+						"private_environment_config": [
+							{
+								"cloud_composer_connection_subnetwork":   true,
+								"cloud_composer_network_ipv4_cidr_block": true,
+								"cloud_sql_ipv4_cidr_block":              true,
+								"enable_privately_used_public_ips":       true,
+								"master_ipv4_cidr_block":                 true,
+								"web_server_ipv4_cidr_block":             true,
+							},
+						],
+						"software_config": [
+							{
+								"airflow_config_overrides": {},
+								"python_version":           true,
+								"scheduler_count":          true,
+							},
+						],
+						"web_server_config":                 true,
+						"web_server_network_access_control": true,
+						"workloads_config": [
+							{
+								"scheduler": [
+									{},
+								],
+								"web_server": [
+									{},
+								],
+								"worker": [
+									{},
+								],
+							},
+						],
+					},
+				],
+				"id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "composer_sa_resource_env",
+		"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+		"type":           "google_composer_environment",
+	},
+	"google_project_iam_member.cloud-composer": {
+		"address": "google_project_iam_member.cloud-composer",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"condition": [],
+				"project":   "modular-scout-345114",
+				"role":      "roles/composer.ServiceAgentV2Ext",
+			},
+			"after_unknown": {
+				"condition": [],
+				"etag":      true,
+				"id":        true,
+				"member":    true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "cloud-composer",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"type":           "google_project_iam_member",
+	},
+	"google_service_account.cloud-composer-sa": {
+		"address": "google_service_account.cloud-composer-sa",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"account_id":   "cloud-composer-sa-id",
+				"description":  null,
+				"disabled":     false,
+				"display_name": "Service Account",
+				"project":      "modular-scout-345114",
+				"timeouts":     null,
+			},
+			"after_unknown": {
+				"email":     true,
+				"id":        true,
+				"name":      true,
+				"unique_id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "cloud-composer-sa",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"type":           "google_service_account",
+	},
+}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"google": {
+				"expressions": {
+					"access_token": {
+						"references": [
+							"var.access_token",
+						],
+					},
+				},
+				"name": "google",
+			},
+			"google-beta": {
+				"expressions": {
+					"access_token": {
+						"references": [
+							"var.access_token",
+						],
+					},
+				},
+				"name": "google-beta",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "google_composer_environment.composer_env",
+					"expressions": {
+						"config": [
+							{
+								"environment_size": {
+									"references": [
+										"var.environment_size",
+									],
+								},
+								"node_config": [
+									{
+										"network": {
+											"references": [
+												"local.network_project_id",
+												"var.network",
+											],
+										},
+										"service_account": {
+											"references": [
+												"var.composer_service_account",
+											],
+										},
+										"subnetwork": {
+											"references": [
+												"local.network_project_id",
+												"local.subnetwork_region",
+												"var.subnetwork",
+											],
+										},
+									},
+								],
+								"workloads_config": [
+									{},
+								],
+							},
+						],
+						"labels": {
+							"references": [
+								"var.labels",
+							],
+						},
+						"name": {
+							"references": [
+								"var.composer_env_name",
+							],
+						},
+						"project": {
+							"references": [
+								"var.project_id",
+							],
+						},
+						"region": {
+							"references": [
+								"var.region",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "composer_env",
+					"provider_config_key": "google-beta",
+					"schema_version":      0,
+					"type":                "google_composer_environment",
+				},
+				{
+					"address": "google_composer_environment.composer_sa_resource_env",
+					"expressions": {
+						"config": [
+							{
+								"environment_size": {
+									"references": [
+										"var.environment_size",
+									],
+								},
+								"node_config": [
+									{
+										"network": {
+											"references": [
+												"local.network_project_id",
+												"var.network",
+											],
+										},
+										"service_account": {
+											"references": [
+												"google_service_account.cloud-composer-sa.email",
+												"google_service_account.cloud-composer-sa",
+											],
+										},
+										"subnetwork": {
+											"references": [
+												"local.network_project_id",
+												"local.subnetwork_region",
+												"var.subnetwork",
+											],
+										},
+									},
+								],
+								"workloads_config": [
+									{},
+								],
+							},
+						],
+						"labels": {
+							"references": [
+								"var.labels",
+							],
+						},
+						"name": {
+							"references": [
+								"var.composer_env_name",
+							],
+						},
+						"project": {
+							"references": [
+								"var.project_id",
+							],
+						},
+						"region": {
+							"references": [
+								"var.region",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "composer_sa_resource_env",
+					"provider_config_key": "google-beta",
+					"schema_version":      0,
+					"type":                "google_composer_environment",
+				},
+				{
+					"address": "google_project_iam_member.cloud-composer",
+					"expressions": {
+						"member": {
+							"references": [
+								"google_service_account.cloud-composer-sa.email",
+								"google_service_account.cloud-composer-sa",
+							],
+						},
+						"project": {
+							"references": [
+								"var.project",
+							],
+						},
+						"role": {
+							"constant_value": "roles/composer.ServiceAgentV2Ext",
+						},
+					},
+					"mode":                "managed",
+					"name":                "cloud-composer",
+					"provider_config_key": "google",
+					"schema_version":      0,
+					"type":                "google_project_iam_member",
+				},
+				{
+					"address": "google_service_account.cloud-composer-sa",
+					"expressions": {
+						"account_id": {
+							"constant_value": "cloud-composer-sa-id",
+						},
+						"display_name": {
+							"constant_value": "Service Account",
+						},
+						"project": {
+							"references": [
+								"var.project",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "cloud-composer-sa",
+					"provider_config_key": "google",
+					"schema_version":      0,
+					"type":                "google_service_account",
+				},
+			],
+			"variables": {
+				"access_token": {
+					"description": "access_token",
+					"sensitive":   true,
+				},
+				"airflow_config_overrides": {
+					"default":     {},
+					"description": "Airflow configuration properties to override. Property keys contain the section and property names, separated by a hyphen, for example \"core-dags_are_paused_at_creation\".",
+				},
+				"cloud_composer_network_ipv4_cidr_block": {
+					"description": "The CIDR block from which IP range in tenant project will be reserved.",
+				},
+				"cloud_sql_ipv4_cidr": {
+					"description": "The CIDR block from which IP range in tenant project will be reserved for Cloud SQL.",
+				},
+				"composer_env_name": {
+					"default":     "composer-test-demo",
+					"description": "Name of Cloud Composer Environment",
+				},
+				"composer_service_account": {
+					"default":     "1080178441487-compute@developer.gserviceaccount.com",
+					"description": "Service Account for running Cloud Composer.",
+				},
+				"enable_private_endpoint": {
+					"default":     true,
+					"description": "Configure public access to the cluster endpoint.",
+				},
+				"env_variables": {
+					"default":     {},
+					"description": "Variables of the airflow environment.",
+				},
+				"environment_size": {
+					"default":     "ENVIRONMENT_SIZE_MEDIUM",
+					"description": "The environment size controls the performance parameters of the managed Cloud Composer infrastructure that includes the Airflow database. Values for environment size are: ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM, and ENVIRONMENT_SIZE_LARGE.",
+				},
+				"grant_sa_agent_permission": {
+					"default":     true,
+					"description": "Cloud Composer relies on Workload Identity as Google API authentication mechanism for Airflow. ",
+				},
+				"image_version": {
+					"default":     "composer-2.0.16-airflow-2.2.5",
+					"description": "The version of the aiflow running in the cloud composer environment.",
+				},
+				"labels": {
+					"default":     {},
+					"description": "The resource labels (a map of key/value pairs) to be applied to the Cloud Composer.",
+				},
+				"maintenance_end_time": {
+					"description": "Time window specified for recurring maintenance operations in RFC3339 format",
+				},
+				"maintenance_recurrence": {
+					"description": "Frequency of the recurring maintenance window in RFC5545 format.",
+				},
+				"maintenance_start_time": {
+					"default":     "05:00",
+					"description": "Time window specified for daily or recurring maintenance operations in RFC3339 format",
+				},
+				"master_authorized_networks": {
+					"default":     [],
+					"description": "List of master authorized networks. If none are provided, disallow external access (except the cluster node IPs, which GKE automatically whitelists).",
+				},
+				"master_ipv4_cidr": {
+					"description": "The CIDR block from which IP range in tenant project will be reserved for the master.",
+				},
+				"network": {
+					"default":     "default",
+					"description": "The VPC network to host the composer cluster.",
+				},
+				"network_project_id": {
+					"default":     "modular-scout-345114",
+					"description": "The project ID of the shared VPC's host (for shared vpc support)",
+				},
+				"pod_ip_allocation_range_name": {
+					"description": "The name of the cluster's secondary range used to allocate IP addresses to pods.",
+				},
+				"project": {
+					"default":     "modular-scout-345114",
+					"description": "Name of Project",
+				},
+				"project_id": {
+					"default":     "modular-scout-345114",
+					"description": "Name of Project",
+				},
+				"pypi_packages": {
+					"default":     {},
+					"description": " Custom Python Package Index (PyPI) packages to be installed in the environment. Keys refer to the lowercase package name (e.g. \"numpy\").",
+				},
+				"region": {
+					"default":     "us-central1",
+					"description": "Region where the Cloud Composer Environment is created.",
+				},
+				"scheduler": {
+					"default": {
+						"count":      2,
+						"cpu":        "2",
+						"memory_gb":  7.5,
+						"storage_gb": 5,
+					},
+					"description": "Configuration for resources used by Airflow schedulers.",
+				},
+				"service_ip_allocation_range_name": {
+					"description": "The name of the services' secondary range used to allocate IP addresses to the cluster.",
+				},
+				"subnetwork": {
+					"default":     "default",
+					"description": "The subnetwork to host the composer cluster.",
+				},
+				"subnetwork_region": {
+					"default":     "us-central1",
+					"description": "The subnetwork region of the shared VPC's host (for shared vpc support)",
+				},
+				"use_private_environment": {
+					"default":     true,
+					"description": "Enable private environment.",
+				},
+				"web_server": {
+					"default": {
+						"cpu":        "2",
+						"memory_gb":  7.5,
+						"storage_gb": 5,
+					},
+					"description": "Configuration for resources used by Airflow web server.",
+				},
+				"web_server_allowed_ip_ranges": {
+					"description": "The network-level access control policy for the Airflow web server. If unspecified, no network-level access restrictions will be applied.",
+				},
+				"web_server_ipv4_cidr": {
+					"description": "The CIDR block from which IP range in tenant project will be reserved for the web server.",
+				},
+				"worker": {
+					"default": {
+						"cpu":        "2",
+						"max_count":  6,
+						"memory_gb":  7.5,
+						"min_count":  2,
+						"storage_gb": 5,
+					},
+					"description": "Configuration for resources used by Airflow workers.",
+				},
+			},
+		},
+	},
+	"format_version": "1.1",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":        "google_composer_environment.composer_env",
+					"mode":           "managed",
+					"name":           "composer_env",
+					"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+					"schema_version": 0,
+					"sensitive_values": {
+						"config": [
+							{
+								"database_config":                   [],
+								"encryption_config":                 [],
+								"maintenance_window":                [],
+								"master_authorized_networks_config": [],
+								"node_config": [
+									{
+										"ip_allocation_policy": [],
+										"oauth_scopes":         [],
+									},
+								],
+								"private_environment_config": [
+									{},
+								],
+								"software_config": [
+									{
+										"airflow_config_overrides": {},
+									},
+								],
+								"web_server_config":                 [],
+								"web_server_network_access_control": [],
+								"workloads_config": [
+									{
+										"scheduler": [
+											{},
+										],
+										"web_server": [
+											{},
+										],
+										"worker": [
+											{},
+										],
+									},
+								],
+							},
+						],
+					},
+					"type": "google_composer_environment",
+					"values": {
+						"config": [
+							{
+								"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+								"master_authorized_networks_config": [],
+								"node_config": [
+									{
+										"network":         "projects/modular-scout-345114/global/networks/default",
+										"service_account": "composer-test-v2@modular-scout-345114.iam.gserviceaccount.com",
+										"subnetwork":      "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+										"tags":            null,
+									},
+								],
+								"private_environment_config": [
+									{
+										"enable_private_endpoint": true,
+									},
+								],
+								"software_config": [
+									{
+										"airflow_config_overrides": {
+											"webserver-rbac_user_registration_role": "",
+										},
+										"env_variables": null,
+										"image_version": "composer-2.0.16-airflow-2.2.5",
+										"pypi_packages": null,
+									},
+								],
+								"workloads_config": [
+									{
+										"scheduler": [
+											{
+												"count":      2,
+												"cpu":        2,
+												"memory_gb":  7.5,
+												"storage_gb": 5,
+											},
+										],
+										"web_server": [
+											{
+												"cpu":        2,
+												"memory_gb":  7.5,
+												"storage_gb": 5,
+											},
+										],
+										"worker": [
+											{
+												"cpu":        2,
+												"max_count":  6,
+												"memory_gb":  7.5,
+												"min_count":  2,
+												"storage_gb": 5,
+											},
+										],
+									},
+								],
+							},
+						],
+						"labels":   null,
+						"name":     "composer-test-v2",
+						"project":  "modular-scout-345114",
+						"region":   "us-central1",
+						"timeouts": null,
+					},
+				},
+				{
+					"address":        "google_composer_environment.composer_sa_resource_env",
+					"mode":           "managed",
+					"name":           "composer_sa_resource_env",
+					"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+					"schema_version": 0,
+					"sensitive_values": {
+						"config": [
+							{
+								"database_config":                   [],
+								"encryption_config":                 [],
+								"maintenance_window":                [],
+								"master_authorized_networks_config": [],
+								"node_config": [
+									{
+										"ip_allocation_policy": [],
+										"oauth_scopes":         [],
+									},
+								],
+								"private_environment_config": [
+									{},
+								],
+								"software_config": [
+									{
+										"airflow_config_overrides": {},
+									},
+								],
+								"web_server_config":                 [],
+								"web_server_network_access_control": [],
+								"workloads_config": [
+									{
+										"scheduler": [
+											{},
+										],
+										"web_server": [
+											{},
+										],
+										"worker": [
+											{},
+										],
+									},
+								],
+							},
+						],
+					},
+					"type": "google_composer_environment",
+					"values": {
+						"config": [
+							{
+								"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+								"master_authorized_networks_config": [],
+								"node_config": [
+									{
+										"network":    "projects/modular-scout-345114/global/networks/default",
+										"subnetwork": "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+										"tags":       null,
+									},
+								],
+								"private_environment_config": [
+									{
+										"enable_private_endpoint": true,
+									},
+								],
+								"software_config": [
+									{
+										"airflow_config_overrides": {
+											"webserver-rbac_user_registration_role": "",
+										},
+										"env_variables": null,
+										"image_version": "composer-2.0.16-airflow-2.2.5",
+										"pypi_packages": null,
+									},
+								],
+								"workloads_config": [
+									{
+										"scheduler": [
+											{
+												"count":      2,
+												"cpu":        2,
+												"memory_gb":  7.5,
+												"storage_gb": 5,
+											},
+										],
+										"web_server": [
+											{
+												"cpu":        2,
+												"memory_gb":  7.5,
+												"storage_gb": 5,
+											},
+										],
+										"worker": [
+											{
+												"cpu":        2,
+												"max_count":  6,
+												"memory_gb":  7.5,
+												"min_count":  2,
+												"storage_gb": 5,
+											},
+										],
+									},
+								],
+							},
+						],
+						"labels":   null,
+						"name":     "composer-test-v2",
+						"project":  "modular-scout-345114",
+						"region":   "us-central1",
+						"timeouts": null,
+					},
+				},
+				{
+					"address":        "google_project_iam_member.cloud-composer",
+					"mode":           "managed",
+					"name":           "cloud-composer",
+					"provider_name":  "registry.terraform.io/hashicorp/google",
+					"schema_version": 0,
+					"sensitive_values": {
+						"condition": [],
+					},
+					"type": "google_project_iam_member",
+					"values": {
+						"condition": [],
+						"project":   "modular-scout-345114",
+						"role":      "roles/composer.ServiceAgentV2Ext",
+					},
+				},
+				{
+					"address":          "google_service_account.cloud-composer-sa",
+					"mode":             "managed",
+					"name":             "cloud-composer-sa",
+					"provider_name":    "registry.terraform.io/hashicorp/google",
+					"schema_version":   0,
+					"sensitive_values": {},
+					"type":             "google_service_account",
+					"values": {
+						"account_id":   "cloud-composer-sa-id",
+						"description":  null,
+						"disabled":     false,
+						"display_name": "Service Account",
+						"project":      "modular-scout-345114",
+						"timeouts":     null,
+					},
+				},
+			],
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "google_composer_environment.composer_env",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"config": [
+						{
+							"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+							"master_authorized_networks_config": [],
+							"node_config": [
+								{
+									"network":         "projects/modular-scout-345114/global/networks/default",
+									"service_account": "composer-test-v2@modular-scout-345114.iam.gserviceaccount.com",
+									"subnetwork":      "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+									"tags":            null,
+								},
+							],
+							"private_environment_config": [
+								{
+									"enable_private_endpoint": true,
+								},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {
+										"webserver-rbac_user_registration_role": "",
+									},
+									"env_variables": null,
+									"image_version": "composer-2.0.16-airflow-2.2.5",
+									"pypi_packages": null,
+								},
+							],
+							"workloads_config": [
+								{
+									"scheduler": [
+										{
+											"count":      2,
+											"cpu":        2,
+											"memory_gb":  7.5,
+											"storage_gb": 5,
+										},
+									],
+									"web_server": [
+										{
+											"cpu":        2,
+											"memory_gb":  7.5,
+											"storage_gb": 5,
+										},
+									],
+									"worker": [
+										{
+											"cpu":        2,
+											"max_count":  6,
+											"memory_gb":  7.5,
+											"min_count":  2,
+											"storage_gb": 5,
+										},
+									],
+								},
+							],
+						},
+					],
+					"labels":   null,
+					"name":     "composer-test-v2",
+					"project":  "modular-scout-345114",
+					"region":   "us-central1",
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"config": [
+						{
+							"database_config":                   [],
+							"encryption_config":                 [],
+							"maintenance_window":                [],
+							"master_authorized_networks_config": [],
+							"node_config": [
+								{
+									"ip_allocation_policy": [],
+									"oauth_scopes":         [],
+								},
+							],
+							"private_environment_config": [
+								{},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {},
+								},
+							],
+							"web_server_config":                 [],
+							"web_server_network_access_control": [],
+							"workloads_config": [
+								{
+									"scheduler": [
+										{},
+									],
+									"web_server": [
+										{},
+									],
+									"worker": [
+										{},
+									],
+								},
+							],
+						},
+					],
+				},
+				"after_unknown": {
+					"config": [
+						{
+							"airflow_uri":                       true,
+							"dag_gcs_prefix":                    true,
+							"database_config":                   true,
+							"encryption_config":                 true,
+							"gke_cluster":                       true,
+							"maintenance_window":                true,
+							"master_authorized_networks_config": [],
+							"node_config": [
+								{
+									"disk_size_gb":         true,
+									"enable_ip_masq_agent": true,
+									"ip_allocation_policy": true,
+									"machine_type":         true,
+									"max_pods_per_node":    true,
+									"oauth_scopes":         true,
+									"zone":                 true,
+								},
+							],
+							"node_count": true,
+							"private_environment_config": [
+								{
+									"cloud_composer_connection_subnetwork":   true,
+									"cloud_composer_network_ipv4_cidr_block": true,
+									"cloud_sql_ipv4_cidr_block":              true,
+									"enable_privately_used_public_ips":       true,
+									"master_ipv4_cidr_block":                 true,
+									"web_server_ipv4_cidr_block":             true,
+								},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {},
+									"python_version":           true,
+									"scheduler_count":          true,
+								},
+							],
+							"web_server_config":                 true,
+							"web_server_network_access_control": true,
+							"workloads_config": [
+								{
+									"scheduler": [
+										{},
+									],
+									"web_server": [
+										{},
+									],
+									"worker": [
+										{},
+									],
+								},
+							],
+						},
+					],
+					"id": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "composer_env",
+			"provider_name": "registry.terraform.io/hashicorp/google-beta",
+			"type":          "google_composer_environment",
+		},
+		{
+			"address": "google_composer_environment.composer_sa_resource_env",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"config": [
+						{
+							"environment_size":                  "ENVIRONMENT_SIZE_MEDIUM",
+							"master_authorized_networks_config": [],
+							"node_config": [
+								{
+									"network":    "projects/modular-scout-345114/global/networks/default",
+									"subnetwork": "projects/modular-scout-345114/regions/us-central1/subnetworks/default",
+									"tags":       null,
+								},
+							],
+							"private_environment_config": [
+								{
+									"enable_private_endpoint": true,
+								},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {
+										"webserver-rbac_user_registration_role": "",
+									},
+									"env_variables": null,
+									"image_version": "composer-2.0.16-airflow-2.2.5",
+									"pypi_packages": null,
+								},
+							],
+							"workloads_config": [
+								{
+									"scheduler": [
+										{
+											"count":      2,
+											"cpu":        2,
+											"memory_gb":  7.5,
+											"storage_gb": 5,
+										},
+									],
+									"web_server": [
+										{
+											"cpu":        2,
+											"memory_gb":  7.5,
+											"storage_gb": 5,
+										},
+									],
+									"worker": [
+										{
+											"cpu":        2,
+											"max_count":  6,
+											"memory_gb":  7.5,
+											"min_count":  2,
+											"storage_gb": 5,
+										},
+									],
+								},
+							],
+						},
+					],
+					"labels":   null,
+					"name":     "composer-test-v2",
+					"project":  "modular-scout-345114",
+					"region":   "us-central1",
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"config": [
+						{
+							"database_config":                   [],
+							"encryption_config":                 [],
+							"maintenance_window":                [],
+							"master_authorized_networks_config": [],
+							"node_config": [
+								{
+									"ip_allocation_policy": [],
+									"oauth_scopes":         [],
+								},
+							],
+							"private_environment_config": [
+								{},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {},
+								},
+							],
+							"web_server_config":                 [],
+							"web_server_network_access_control": [],
+							"workloads_config": [
+								{
+									"scheduler": [
+										{},
+									],
+									"web_server": [
+										{},
+									],
+									"worker": [
+										{},
+									],
+								},
+							],
+						},
+					],
+				},
+				"after_unknown": {
+					"config": [
+						{
+							"airflow_uri":                       true,
+							"dag_gcs_prefix":                    true,
+							"database_config":                   true,
+							"encryption_config":                 true,
+							"gke_cluster":                       true,
+							"maintenance_window":                true,
+							"master_authorized_networks_config": [],
+							"node_config": [
+								{
+									"disk_size_gb":         true,
+									"enable_ip_masq_agent": true,
+									"ip_allocation_policy": true,
+									"machine_type":         true,
+									"max_pods_per_node":    true,
+									"oauth_scopes":         true,
+									"service_account":      true,
+									"zone":                 true,
+								},
+							],
+							"node_count": true,
+							"private_environment_config": [
+								{
+									"cloud_composer_connection_subnetwork":   true,
+									"cloud_composer_network_ipv4_cidr_block": true,
+									"cloud_sql_ipv4_cidr_block":              true,
+									"enable_privately_used_public_ips":       true,
+									"master_ipv4_cidr_block":                 true,
+									"web_server_ipv4_cidr_block":             true,
+								},
+							],
+							"software_config": [
+								{
+									"airflow_config_overrides": {},
+									"python_version":           true,
+									"scheduler_count":          true,
+								},
+							],
+							"web_server_config":                 true,
+							"web_server_network_access_control": true,
+							"workloads_config": [
+								{
+									"scheduler": [
+										{},
+									],
+									"web_server": [
+										{},
+									],
+									"worker": [
+										{},
+									],
+								},
+							],
+						},
+					],
+					"id": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "composer_sa_resource_env",
+			"provider_name": "registry.terraform.io/hashicorp/google-beta",
+			"type":          "google_composer_environment",
+		},
+		{
+			"address": "google_project_iam_member.cloud-composer",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"condition": [],
+					"project":   "modular-scout-345114",
+					"role":      "roles/composer.ServiceAgentV2Ext",
+				},
+				"after_sensitive": {
+					"condition": [],
+				},
+				"after_unknown": {
+					"condition": [],
+					"etag":      true,
+					"id":        true,
+					"member":    true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "cloud-composer",
+			"provider_name": "registry.terraform.io/hashicorp/google",
+			"type":          "google_project_iam_member",
+		},
+		{
+			"address": "google_service_account.cloud-composer-sa",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"account_id":   "cloud-composer-sa-id",
+					"description":  null,
+					"disabled":     false,
+					"display_name": "Service Account",
+					"project":      "modular-scout-345114",
+					"timeouts":     null,
+				},
+				"after_sensitive": {},
+				"after_unknown": {
+					"email":     true,
+					"id":        true,
+					"name":      true,
+					"unique_id": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "cloud-composer-sa",
+			"provider_name": "registry.terraform.io/hashicorp/google",
+			"type":          "google_service_account",
+		},
+	],
+	"terraform_version": "1.2.2",
+	"variables": {
+		"access_token": {
+			"value": "REDACTED_SENSITIVE",
+		},
+		"airflow_config_overrides": {
+			"value": {
+				"webserver-rbac_user_registration_role": "",
+			},
+		},
+		"cloud_composer_network_ipv4_cidr_block": {},
+		"cloud_sql_ipv4_cidr":                    {},
+		"composer_env_name": {
+			"value": "composer-test-v2",
+		},
+		"composer_service_account": {
+			"value": "composer-test-v2@modular-scout-345114.iam.gserviceaccount.com",
+		},
+		"enable_private_endpoint": {
+			"value": true,
+		},
+		"env_variables": {
+			"value": {},
+		},
+		"environment_size": {
+			"value": "ENVIRONMENT_SIZE_MEDIUM",
+		},
+		"grant_sa_agent_permission": {
+			"value": true,
+		},
+		"image_version": {
+			"value": "composer-2.0.16-airflow-2.2.5",
+		},
+		"labels": {
+			"value": {},
+		},
+		"maintenance_end_time":   {},
+		"maintenance_recurrence": {},
+		"maintenance_start_time": {
+			"value": "05:00",
+		},
+		"master_authorized_networks": {
+			"value": [],
+		},
+		"master_ipv4_cidr": {},
+		"network": {
+			"value": "default",
+		},
+		"network_project_id": {
+			"value": "modular-scout-345114",
+		},
+		"pod_ip_allocation_range_name": {},
+		"project": {
+			"value": "modular-scout-345114",
+		},
+		"project_id": {
+			"value": "modular-scout-345114",
+		},
+		"pypi_packages": {
+			"value": {},
+		},
+		"region": {
+			"value": "us-central1",
+		},
+		"scheduler": {
+			"value": {
+				"count":      2,
+				"cpu":        "2",
+				"memory_gb":  7.5,
+				"storage_gb": 5,
+			},
+		},
+		"service_ip_allocation_range_name": {},
+		"subnetwork": {
+			"value": "default",
+		},
+		"subnetwork_region": {
+			"value": "us-central1",
+		},
+		"use_private_environment": {
+			"value": true,
+		},
+		"web_server": {
+			"value": {
+				"cpu":        "2",
+				"memory_gb":  7.5,
+				"storage_gb": 5,
+			},
+		},
+		"web_server_allowed_ip_ranges": {},
+		"web_server_ipv4_cidr":         {},
+		"worker": {
+			"value": {
+				"cpu":        "2",
+				"max_count":  6,
+				"memory_gb":  7.5,
+				"min_count":  2,
+				"storage_gb": 5,
+			},
+		},
+	},
+}
