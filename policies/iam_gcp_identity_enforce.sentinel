@@ -64,9 +64,9 @@ check_gcp_identity = func(address, rc, key, value) {
 
 //*******************validating service account only***************************
 messages_gi = {}
-for resourceTypesGCPIdentityMap as key_address, _ {
+for resourceTypesGCPIdentityMap as key_address, rtg {
 
-    rtg = resourceTypesGCPIdentityMap[key_address]
+    #rtg = resourceTypesGCPIdentityMap[key_address]
     key = rtg.key
     sub_value = rtg.value
     final_value = ""
@@ -79,10 +79,10 @@ for resourceTypesGCPIdentityMap as key_address, _ {
     }
 
     if is_project_id is true and final_value is "" {
-        message = "For resource: " + address + ", please define data source for resource type: google_project"
-        gen.create_sub_main_key_list(messages, messages_gi, address)
-        append(messages_gi[address], message)
-        append(messages[address], message)
+        message = "For resource: " + key_address + ", please define data source for resource type: google_project"
+        gen.create_sub_main_key_list(messages, messages_gi, key_address)
+        append(messages_gi[key_address], message)
+        append(messages[key_address], message)
 
     } else {
         # Get all the instances on the basis of type
