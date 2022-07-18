@@ -46,6 +46,21 @@ policy "threat_gcp_unapproved_service_validation" {
     enforcement_level = "advisory"
 }
 
+policy "compute_gcp_versioning_enforce" {
+    source = "./compute_gcp_versioning_enforce.sentinel"
+    enforcement_level = "advisory"
+}
+
+policy "encryption_gcp_cmek_enforce" {
+    source = "./encryption_gcp_cmek_enforce.sentinel"
+    enforcement_level = "advisory"
+}
+
+policy "iam_gcp_identity_enforce" {
+    source = "./iam_gcp_identity_enforce.sentinel"
+    enforcement_level = "advisory"
+}
+
 param "org" {
   value = [ "wf" ]
 }

@@ -26,6 +26,7 @@ resourceTypesGCPIdentityMap = {
 	},
 }
 
+//*******************Fetching value of Project Id from States of tfplan file**************
 get_workload_project_identity_config = func(sub_value){
     workload_pool_var = ""
 
@@ -47,6 +48,7 @@ get_workload_project_identity_config = func(sub_value){
     return workload_pool_var
 }
 
+//*******************Comparing values with the given one**************
 check_gcp_identity = func(address, rc, key, value) {
     message = null
     workload_pool = plan.evaluate_attribute(rc, key)
@@ -62,11 +64,10 @@ check_gcp_identity = func(address, rc, key, value) {
     return message
 }
 
-//*******************validating service account only***************************
+//*******************Iterating resources of resourceTypesGCPIdentityMap map to validate Identity***
 messages_gi = {}
 for resourceTypesGCPIdentityMap as key_address, rtg {
 
-    #rtg = resourceTypesGCPIdentityMap[key_address]
     key = rtg.key
     sub_value = rtg.value
     final_value = ""
@@ -86,7 +87,8 @@ for resourceTypesGCPIdentityMap as key_address, rtg {
 
     } else {
         # Get all the instances on the basis of type
-        allResources = plan.find_resources(key_address)        
+        allResources = plan.find_resources(key_address)  
+
         for allResources as address, rc {
             message = null
             message = check_gcp_identity(address, rc, key, final_value)

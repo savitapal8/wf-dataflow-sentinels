@@ -50,6 +50,16 @@ resourceTypesCMEKKeyMap = {
 		"array": null,
         "is_composer": true,
 	},
+	"google_vertex_ai_dataset": {
+		"key":   "encryption_spec.kms_key_name",
+		"array": null,
+        "is_composer": false,
+	},
+	"google_notebooks_instance": {
+		"key":   "kms_key",
+		"array": null,
+        "is_composer": false,
+	},
 }
 
 # Function to check if KMS Param is Defined
@@ -96,6 +106,7 @@ check_multiple_kms = func(address, rc, kms_key_param, array) {
 }
 
 # Function to check if KMS Param is Defined for Cloud Composer
+####------Function to check null and undefined values----###
 check_valid = func(value, validator){
     result = false
 
@@ -108,6 +119,7 @@ check_valid = func(value, validator){
     return result
 }
 
+####------Validating format of KMS key's URL----###
 check_kms_composer = func(address, rc, kms_key_param, array){
     message = ""
     kms_key_value = plan.evaluate_attribute(rc, kms_key_param)
@@ -131,6 +143,7 @@ check_kms_composer = func(address, rc, kms_key_param, array){
 
 # Fetch all resources based on resourceTypes
 allResources = {}
+
 for resourceTypesCMEKKeyMap as rt, _ {
 	resources = plan.find_resources(rt)
 	for resources as address, rc {
@@ -141,9 +154,11 @@ for resourceTypesCMEKKeyMap as rt, _ {
 # print(messages)
 msgs = {}
 
+#------Iterating all fetched resource's values
 for allResources as address, rc {
     is_composer = resourceTypesCMEKKeyMap[rc["type"]]["is_composer"]
 	
+	#------Checking if service is related to GCP Composer
     if is_composer is true {
         msg = check_kms_composer(
             address,

@@ -62,6 +62,11 @@ resourceTypesInternalIPMap = {
 		"expected_result": "WORKER_IP_PRIVATE",
 		"is_composer_cidr": false,
 	}],
+	"google_notebooks_instance": [{
+		"key":        "no_public_ip",
+		"expected_result": true,
+		"is_composer_cidr": false,
+	}],
 }
 
 //******Following function is being used to validate the internal ip settings**

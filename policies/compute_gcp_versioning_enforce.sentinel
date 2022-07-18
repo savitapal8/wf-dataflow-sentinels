@@ -31,12 +31,14 @@ resourceTypesGCPVersionMap = {
 	},],
 }
 
+#######----validating value of release_channel-----------##############
 check_compute_version = func(address, rc){
-
 	map_results = resourceTypesGCPVersionMap[rc.type]
 	msg_list = null
 
+	####------Iterating list of each resource of resourceTypesGCPVersionMap map----###
 	for map_results as rec {
+
 		selected_node = plan.evaluate_attribute(rc, rec.key)
 		selected_node_result = rec.value		
 		is_prefixed_check = rec.is_prefixed_check
@@ -48,6 +50,7 @@ check_compute_version = func(address, rc){
 
 			append(msg_list, "It does not have " + rec.key + " defined.")
 		} else {
+			####------Checking if need to have some prefix value----- 
 			if is_prefixed_check is true {
 					if not strings.has_prefix(selected_node, rec.value) {
 						if msg_list is null {
@@ -56,6 +59,7 @@ check_compute_version = func(address, rc){
 					append(msg_list, address +  " value of " + rec.key + " attribute should only start with " + rec.value + "*.")
 				}
 			} else {
+				####------Checking if comparing with absolute value-----
 				if not (plan.to_string(selected_node) == rec.value) {
 					if msg_list is null {
 						msg_list = []
@@ -70,11 +74,15 @@ check_compute_version = func(address, rc){
 
 messages_compute_versions = {}
 
+####------Iterating each resource of resourceTypesGCPVersionMap map----###
 for resourceTypesGCPVersionMap as key_address, _ {
 	# Get all the instances on the basis of type
 	allResources = plan.find_resources(key_address)
+
 	for allResources as address, rc {
 		message = null
+
+		####------using function to validate the respective values
 		message = check_compute_version(address, rc)
 
 		if types.type_of(message) is not "null" {

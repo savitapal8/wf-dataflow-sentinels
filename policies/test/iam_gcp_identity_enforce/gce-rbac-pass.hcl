@@ -16,3 +16,10 @@ mock "tfplan/v2" {
     source = "./gce-rbac-pass.sentinel"
   }
 }
+
+
+test {
+  rules = {
+    main = true
+  }
+}
